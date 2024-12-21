@@ -7,6 +7,7 @@ import User from 'App/Models/User'
 import { PaginateContractType } from 'App/Shared/Interfaces/BaseInterface'
 
 import NotFoundException from 'App/Shared/Exceptions/NotFoundException'
+import BadRequestException from 'App/Shared/Exceptions/BadRequestException'
 
 import DTOs = IUser.DTOs
 
@@ -77,5 +78,21 @@ export default class UserServices {
       deleted_at: DateTime.now(),
     })
     await this.usersRepository.save(user)
+  }
+
+  public async updateNotificationToken(id: number, token: string | null): Promise<void> {
+    const user = await this.usersRepository.findBy('id', id);
+    if (!user) throw new NotFoundException('User not found or not available.')
+
+      if(token === null && user.notification_token == null){
+        throw new BadRequestException('There is no token to be deleted.')
+      }
+
+    user.notification_token = token
+      
+    user.save();
+
+    await this.usersRepository.save(user)
+
   }
 }

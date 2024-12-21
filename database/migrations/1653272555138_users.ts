@@ -16,6 +16,7 @@ export default class UsersSchema extends BaseSchema {
       table.string('remember_me_token').nullable()
 
       table.string('profile_url')
+      table.string('notification_token').defaultTo(null)
 
       table.boolean('is_online').notNullable().defaultTo(false)
       table.boolean('is_blocked').notNullable().defaultTo(false)

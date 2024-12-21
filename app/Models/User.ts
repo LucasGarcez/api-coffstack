@@ -68,6 +68,9 @@ export default class User extends BaseModel {
   @column({ serializeAs: null })
   public is_deleted: boolean
 
+  @column({ serializeAs: null })
+  public notification_token: string | null
+
   @column()
   // @no-swagger
   public temp_token_created_at?: Date | null

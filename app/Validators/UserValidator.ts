@@ -46,6 +46,9 @@ export const EditPasswordSchema = schema.create({
   currentPassword: schema.string({ trim: true }),
   newPassword: schema.string({ trim: true }, [rules.minLength(8)]),
 })
+export const UpdateNotificationTokenSchema = schema.create({
+  token: schema.string(),
+})
 
 
 

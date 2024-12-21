@@ -1,8 +1,11 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { container } from 'tsyringe'
+import Firebase from '@ioc:App/Firebase';
+
 
 import FollowServices from 'App/Services/FollowServices'
 import { FollowValidators } from 'App/Validators/FollowValidators'
+import UserServices from 'App/Services/UserServices';
 
 export default class FollowController {
 
@@ -70,15 +73,32 @@ export default class FollowController {
     const userId = auth.user?.id!
 
     const { followed_user_id } = await request.validate(FollowValidators.Create)
-    const createFollowService = container.resolve(FollowServices)
+    const followService = container.resolve(FollowServices)
 
-    const isFollowing = await createFollowService.isFollowing({ follower_user_id: userId, followed_user_id });
+    const isFollowing = await followService.isFollowing({ follower_user_id: userId, followed_user_id });
 
     if (isFollowing) {
       return response.status(400).json({ message: 'You already follow this user' })
     }
 
-    const follow = await createFollowService.store({ follower_user_id: userId, followed_user_id })
+    const follow = await followService.store({ follower_user_id: userId, followed_user_id })
+
+    // notification 
+    const userServices = container.resolve(UserServices)
+    const followedUser = await userServices.get(followed_user_id.toString());
+    if(followedUser.notification_token) {
+      const user = await userServices.get(userId.toString());
+
+      Firebase.messaging().send({
+        token: followedUser.notification_token,
+        notification: {
+          title: 'Nubble',
+          body: `${user.full_name} começou a te seguir`
+        },
+      
+      })
+    }
+    
     return response.json(follow)
   }
 

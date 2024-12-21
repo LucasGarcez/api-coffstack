@@ -2,7 +2,7 @@ import 'App/Services/container'
 import { container } from 'tsyringe'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-import { EditUserSchema } from 'App/Validators/UserValidator'
+import { EditUserSchema, UpdateNotificationTokenSchema } from 'App/Validators/UserValidator'
 import UserServices from 'App/Services/UserServices'
 
 export default class UsersController {
@@ -63,4 +63,33 @@ export default class UsersController {
     await userServices.delete(userId)
     return response.json({ message: 'User deleted successfully.' })
   }
+
+
+    /**
+   * @edit
+   * @summary Update Notification Token
+   * @tag Users
+   * @requestBody {"token": "string"}
+   */
+    public async updateNotificationToken({ request, auth, response }: HttpContextContract): Promise<void> {
+      const userId = auth.user?.id!
+      const {token} = await request.validate({ schema: UpdateNotificationTokenSchema })
+      
+      const userServices = container.resolve(UserServices)
+
+      await userServices.updateNotificationToken(userId, token)
+      return response.json({ message: 'Notification token updated successfully.' })
+    }
+    /**
+   * @delete
+   * @summary Delete Notification Token
+   * @tag Users
+   */
+    public async deleteNotificationToken({  auth, response }: HttpContextContract): Promise<void> {
+      const userId = auth.user?.id!      
+      const userServices = container.resolve(UserServices)
+
+      await userServices.updateNotificationToken(userId, null)
+      return response.json({ message: 'Notification token deleted successfully.' })
+    }
 }

@@ -9,6 +9,8 @@ Route.group(() => {
   Route.get('/', 'UsersController.list')
   Route.get('/:id', 'UsersController.get').as('users.get')
   Route.put('/', 'UsersController.edit').as('users.edit')
+  Route.post('/notification-token', 'UsersController.updateNotificationToken').as('users.updateNotificationToken')
+  Route.delete('/notification-token', 'UsersController.deleteNotificationToken').as('users.deleteNotificationToken')
   // Route.delete('/:id', 'UsersController.delete').as('users.delete')
 })
 .prefix('/users')
