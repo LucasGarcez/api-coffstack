@@ -15,7 +15,8 @@
       "App/*": ["./app/*"],
       "Config/*": ["./config/*"],
       "Contracts/*": ["./contracts/*"],
-      "Database/*": ["./database/*"]
+      "Database/*": ["./database/*"],
+      "@ioc:App/Firebase": ["contracts/firebase"]
     },
     "types": [
       "@adonisjs/core",

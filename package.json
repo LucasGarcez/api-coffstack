@@ -71,6 +71,7 @@
     "adonis5-jwt": "^1.1.7",
     "crypto": "^1.0.1",
     "date-fns": "^2.30.0",
+    "firebase-admin": "^13.0.2",
     "generate-password": "^1.7.0",
     "jwt-decode": "^3.1.2",
     "luxon": "^3.2.1",

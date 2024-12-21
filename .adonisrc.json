@@ -26,7 +26,8 @@
     "@adonisjs/mail",
     "@adonisjs/view",
     "@adonisjs/drive-s3",
-    "adonis5-jwt"
+    "adonis5-jwt",
+    "./providers/FirebaseProvider"
   ],
   "aceProviders": [
     "@adonisjs/repl"
