@@ -95,10 +95,10 @@ export default class FollowController {
         token: followedUser.notification_token,
         notification: {
           title: 'Nubble',
-          body: `${user.full_name} começou a te seguir`
+          body: `${user.full_name} começou a te seguir`,
         },
         data: {
-          navigate: JSON.stringify({ screen: 'ProfileScreen', params: {userId: userId}})
+          navigate: JSON.stringify({ screen: 'ProfileScreen', params: {userId: userId}}),
         },
         apns: {
           payload: {
@@ -106,16 +106,8 @@ export default class FollowController {
               'mutable-content': 1
             }
           },
-          fcmOptions: {
-            imageUrl: user.profileURL
-          }
         },
-        android: {
-          notification: {
-            imageUrl: user.profileURL
-          }
-        }
-      })
+       })
     }
     
     return response.json(follow)
