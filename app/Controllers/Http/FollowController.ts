@@ -84,18 +84,37 @@ export default class FollowController {
     const follow = await followService.store({ follower_user_id: userId, followed_user_id })
 
     // notification 
+    
     const userServices = container.resolve(UserServices)
     const followedUser = await userServices.get(followed_user_id.toString());
     if(followedUser.notification_token) {
       const user = await userServices.get(userId.toString());
 
+      // https://rnfirebase.io/messaging/server-integration#send-messages-with-image
       Firebase.messaging().send({
         token: followedUser.notification_token,
         notification: {
           title: 'Nubble',
           body: `${user.full_name} começou a te seguir`
         },
-      
+        data: {
+          navigate: JSON.stringify({ screen: 'ProfileScreen', params: {userId: userId}})
+        },
+        apns: {
+          payload: {
+            aps: {
+              'mutable-content': 1
+            }
+          },
+          fcmOptions: {
+            imageUrl: user.profileURL
+          }
+        },
+        android: {
+          notification: {
+            imageUrl: user.profileURL
+          }
+        }
       })
     }
     
