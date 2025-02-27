@@ -26,8 +26,8 @@ export default class RefreshTokenMiddleware {
 
           // Gere um novo refresh token e armazene no banco de dados
           const newRefreshToken = randomBytes(32).toString('hex')
-          user.rememberMeToken = newRefreshToken
-          user.rememberMeTokenCreatedAt = DateTime.local()
+          user.remember_me_token = newRefreshToken
+          user.remember_me_token_created_at = DateTime.local()
           await user.save()
 
           const newToken = await auth.use('api').generate(user)

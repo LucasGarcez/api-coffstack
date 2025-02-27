@@ -1,4 +1,4 @@
-import { rules, schema } from '@ioc:Adonis/Core/Validator'
+import { schema } from '@ioc:Adonis/Core/Validator'
 
 export namespace PostCommentValidators {
   export class Store {

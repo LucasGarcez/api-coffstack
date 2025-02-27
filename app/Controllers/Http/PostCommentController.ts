@@ -19,7 +19,10 @@ export default class PostCommentController {
 
     const createService = container.resolve(CreatePostCommentService)
 
-    const postComment = await createService.run({ ...data, user_id: currentUser?.id })
+    if (typeof currentUser?.id !== 'number') {
+      throw new Error('User ID is not a number')
+    }
+    const postComment = await createService.run({ ...data, user_id: currentUser.id })
 
     return response.json(postComment)
   }
@@ -63,7 +66,10 @@ export default class PostCommentController {
     const currentUser = auth.user
 
     const deleteService = container.resolve(DeletePostCommentService)
-    await deleteService.run(commentId, currentUser?.id)
+    if (typeof currentUser?.id !== 'number') {
+      throw new Error('User ID is not a number')
+    }
+    await deleteService.run(commentId, currentUser.id)
 
     return response.json({ message: 'Comment deleted.' })
   }

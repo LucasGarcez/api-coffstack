@@ -24,6 +24,8 @@ export default class User extends BaseModel {
    */
   @column({ isPrimary: true })
   public id: string
+  rememberMeToken: string
+  rememberMeTokenCreatedAt: DateTime<true>
 
   @computed()
   public get full_name() {

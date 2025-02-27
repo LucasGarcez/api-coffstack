@@ -27,7 +27,7 @@ export default class PostCommentsRepository implements IPostComment.Repository {
       .paginate(page, perPage)
   }
 
-  public async show(postCommentId: number, userId: number): Promise<PostComment | null> {
+  public async show(postCommentId: number, _userId: number): Promise<PostComment | null> {
     return PostComment.query()
       .withScopes((scopes) => {
         scopes.loadUser()

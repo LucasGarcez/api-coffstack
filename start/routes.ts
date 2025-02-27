@@ -18,7 +18,7 @@ Route.get('/', () => {
 })
 
 Route.get('/swagger', async () => {
-  return AutoSwagger.docs(Route.toJSON(), swagger)
+  return AutoSwagger.docs(Route.toJSON() as any, swagger)
 })
 
 Route.get('/docs', async () => {
